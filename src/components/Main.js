@@ -6,7 +6,18 @@ function Main(props) {
     const [userName, setUserName] = React.useState("");
     const [userDescription, setUserDescription] = React.useState("");
     const [userAvatar, setUserAvatar] = React.useState("");
+    const [cards, setCards] = React.useState([])
     // const [userId, setUserId] = React.useState("")
+
+    React.useEffect(() => {
+        api.getInitialCards()
+            .then(initialCards => {
+                setCards([...initialCards]);
+            })
+            .catch(error => {
+                console.log(`Initial cards loading error - ${error}`)
+            })
+    }, [])
 
     React.useEffect(() => {
         api.getUserInfo()
@@ -36,7 +47,9 @@ function Main(props) {
                     <button className="profile__add-button" type="button" onClick={props.onAddPlace}></button>
                 </section>
                 <section className="elements">
-                    <Card onCardClick={props.onCardClick} />
+                    {cards.map(card => {
+                        return (<Card card={card} onCardClick={props.onCardClick} key={card._id}/>)
+                    })}
                 </section>
         </main>
     );
