@@ -1,6 +1,6 @@
 import React from "react";
 import api from "../utils/api.js"
-import Cards from "./Card.js";
+import Card from "./Card.js";
 
 function Main(props) {
     const [userName, setUserName] = React.useState("");
@@ -36,7 +36,7 @@ function Main(props) {
                     <button className="profile__add-button" type="button" onClick={props.onAddPlace}></button>
                 </section>
                 <section className="elements">
-                    <Cards onCardClick={props.onCardClick} />
+                    <Card onCardClick={props.onCardClick} />
                 </section>
         </main>
     );

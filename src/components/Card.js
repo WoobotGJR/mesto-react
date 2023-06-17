@@ -1,7 +1,7 @@
 import React from "react";
 import api from "../utils/api.js";
 
-function Cards(props) {
+function Card(props) {
     const [cards, setCards] = React.useState([])
 
     React.useEffect(() => {
@@ -81,4 +81,4 @@ function Cards(props) {
 //     }
 // }
 
-export default Cards;
+export default Card;
