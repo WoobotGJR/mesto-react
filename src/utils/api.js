@@ -73,21 +73,38 @@ class Api {
         .then(res => {return this._checkResponseStatus(res)})
     }
 
-    setLike(cardId) {
-        return fetch(this._baseUrl + `/cards/${cardId}/likes`, {
-            headers: this.headers,
-            method: "PUT"
-        })
-        .then(res => {return this._checkResponseStatus(res)})
+    changeLikeCardStatus(cardId, likeState) {
+        if(likeState) {
+            return fetch(this._baseUrl + `/cards/${cardId}/likes`, {
+                headers: this.headers,
+                method: "PUT"
+            })
+            .then(res => {return this._checkResponseStatus(res)})
+        }
+        else {
+            return fetch(this._baseUrl + `/cards/${cardId}/likes`, {
+                headers: this.headers,
+                method: "DELETE"
+            })
+            .then(res => {return this._checkResponseStatus(res)})
+        }
     }
 
-    deleteLike(cardId) {
-        return fetch(this._baseUrl + `/cards/${cardId}/likes`, {
-            headers: this.headers,
-            method: "DELETE"
-        })
-        .then(res => {return this._checkResponseStatus(res)})
-    }
+    // setLike(cardId) {
+    //     return fetch(this._baseUrl + `/cards/${cardId}/likes`, {
+    //         headers: this.headers,
+    //         method: "PUT"
+    //     })
+    //     .then(res => {return this._checkResponseStatus(res)})
+    // }
+
+    // deleteLike(cardId) {
+    //     return fetch(this._baseUrl + `/cards/${cardId}/likes`, {
+    //         headers: this.headers,
+    //         method: "DELETE"
+    //     })
+    //     .then(res => {return this._checkResponseStatus(res)})
+    // }
 }
 
 const api = new Api({baseUrl: "https://mesto.nomoreparties.co/v1/cohort-66", headers: {
