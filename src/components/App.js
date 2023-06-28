@@ -16,16 +16,15 @@ function App() {
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState(null);
     const [cards, setCards] = React.useState([]);
-    const [currentUser, setCurrentUser] = React.useState({
-        avatar: null,
-        about: null,
-        name: null,
-    });
+    const [currentUser, setCurrentUser] = React.useState({}); // Установка значения null приводит к ошибкам, описывать весь объект с занулёнными значениями не самый лучший способ, поэтому был передан пустой объект
 
     React.useEffect(() => {
         api.getUserInfo()
             .then(userInfo => {
                 setCurrentUser(userInfo);
+            })
+            .catch(error => {
+                console.log(`Initial user info loading error - ${error}`)
             })
     }, [])
 
@@ -93,7 +92,7 @@ function App() {
     function handleUpdateUser({newName, newDescription}) {
         api.setUserInfo({username: newName, userInfo: newDescription})
             .then((res) => {
-                setCurrentUser(res);
+                setCurrentUser(res); // Была ошибка, связанная с некорректной передачей новых данных (они передавались без поля _id)
                 closeAllPopups();
             })
             .catch(error => {
@@ -104,7 +103,7 @@ function App() {
     function handleUpdateAvatar({newAvatar}) {
         api.setUserAvatar({avatar: newAvatar})
             .then(res => {
-                setCurrentUser(res)
+                setCurrentUser(res)  // Была ошибка, связанная с некорректной передачей новых данных (они передавались без поля _id)
                 closeAllPopups();
             })
             .catch(error => {
@@ -116,6 +115,7 @@ function App() {
         api.addUserCard({link: link, name: placeName})
             .then(res => {
                 setCards([res, ...cards])
+                setAddPlacePopupOpen(false); // Закрывать попапы нужно в блоке then запроса, после успешного обмена данными с сервером
             })
             .catch(error => {
                 console.log(`new card setting error - ${error}`);
